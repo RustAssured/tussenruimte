@@ -254,6 +254,35 @@
     animation: pulseert 2.4s ease infinite;
   }
 
+  /* DEFINITIE */
+  .definitie {
+    padding: 7rem 4rem;
+    background: var(--zwart);
+  }
+
+  .definitie-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .definitie-tekst {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+    font-weight: 300;
+    color: rgba(251,249,246,0.75);
+    line-height: 2;
+  }
+
+  .definitie-tekst em {
+    font-style: italic;
+    color: var(--celadon);
+  }
+
+  @media (max-width: 860px) {
+    .definitie { padding: 5rem 1.5rem; }
+  }
+
   /* SECTIES — gedeelde stijl */
   .sectie-label {
     display: block;
@@ -790,6 +819,10 @@
   @media (max-width: 860px) {
     nav { padding: 1.2rem 1.5rem; }
     .nav-links { display: none; }
+    .nav-naam { font-size: 0.85rem; letter-spacing: 0.12em; }
+    .beeldmerk .lijn-donker { height: 16px; }
+    .beeldmerk .lijn-celadon { height: 11px; }
+    .hero-titel { letter-spacing: 0.08em; }
     .herkenning, .ingang { padding: 5rem 1.5rem; }
     .herkenning-raster { grid-template-columns: 1fr; gap: 3rem; }
     .themas { padding: 5rem 1.5rem; }
@@ -847,6 +880,20 @@
   <div class="hero-scroll">
     <p>scroll</p>
     <div class="scroll-lijn"></div>
+  </div>
+</section>
+
+<!-- DEFINITIE -->
+<section class="definitie">
+  <div class="definitie-inner">
+    <p class="definitie-tekst onthul">
+      Tussenruimte is de ruimte tussen wat je voelt en wat je soms niet kunt benoemen.<br>
+      Tussen wat er gebeurde en wat het met je deed.<br>
+      Tussen wie je bent en waar je vandaan komt.<br>
+      Tussen thuis zijn en het even niet meer weten.<br><br>
+      Die ruimte bestaat. En hij mag er zijn.<br>
+      <em>Net als jij.</em>
+    </p>
   </div>
 </section>
 
