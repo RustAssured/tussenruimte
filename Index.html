@@ -797,6 +797,29 @@
 
   .footer-nav a:hover { color: rgba(255,255,255,0.7); }
 
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--tekst);
+    border-radius: 1px;
+    transition: all 0.3s ease;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
   /* ANIMATIES */
   @keyframes opkomst {
     from { opacity: 0; transform: translateY(16px); }
@@ -821,7 +844,21 @@
 
   @media (max-width: 860px) {
     nav { padding: 1.2rem 1.5rem; }
-    .nav-links { display: none; }
+    .nav-links {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(251,249,246,0.97);
+      backdrop-filter: blur(14px);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+      z-index: 99;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 1.2rem; letter-spacing: 0.12em; }
+    .hamburger { display: flex; z-index: 101; position: relative; }
     .nav-naam { font-size: 0.85rem; letter-spacing: 0.1em; }
     .beeldmerk .lijn-donker { height: 16px; }
     .beeldmerk .lijn-celadon { height: 11px; }
@@ -832,6 +869,8 @@
     .hero-ondertitel { font-size: 1.1rem; max-width: 100%; }
     .hero-beeldmerk { margin-bottom: 2rem; }
     .hero-lijn { height: 2rem; margin-bottom: 1.5rem; }
+    .hero-scroll { left: 50%; transform: translateX(-50%); width: auto; text-align: center; }
+    .hero-scroll p { text-align: center; width: 100%; }
 
     .definitie { padding: 4rem 1.5rem; }
     .definitie-tekst { font-size: 1rem; line-height: 1.85; }
@@ -883,11 +922,16 @@
     </div>
     <span class="nav-naam">TUSSENRUIMTE</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="#herkenning">Herkenning</a></li>
-    <li><a href="#ingang">Waar sta ik?</a></li>
-    <li><a href="#therapeuten">Voor therapeuten</a></li>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#herkenning" onclick="sluitMenu()">Herkenning</a></li>
+    <li><a href="#ingang" onclick="sluitMenu()">Waar sta ik?</a></li>
+    <li><a href="#therapeuten" onclick="sluitMenu()">Voor therapeuten</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -920,11 +964,9 @@
 <section class="definitie">
   <div class="definitie-inner">
     <p class="definitie-tekst onthul">
-      Tussenruimte is de ruimte tussen wat je voelt en wat je soms niet kunt benoemen.<br>
-      Tussen wat er gebeurde en wat het met je deed.<br>
-      Tussen wie je bent en waar je vandaan komt.<br>
-      Tussen thuis zijn en het even niet meer weten.<br><br>
-      Die ruimte bestaat. En hij mag er zijn.<br>
+      Tussen thuis zijn en het even niet meer weten.<br>
+      Tussen identiteiten. Tussen werelden.<br><br>
+      Die ruimte bestaat. En mag er zijn.<br>
       <em>Net als jij.</em>
     </p>
   </div>
@@ -1133,6 +1175,18 @@
 </footer>
 
 <script>
+  function toggleMenu() {
+    const menu = document.getElementById('nav-links');
+    const knop = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    knop.classList.toggle('open');
+  }
+
+  function sluitMenu() {
+    document.getElementById('nav-links').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  }
+
   const elementen = document.querySelectorAll('.onthul');
   const waarnemer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
