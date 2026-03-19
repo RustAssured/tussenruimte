@@ -1057,24 +1057,24 @@
 
     <div class="formulier-blok onthul">
       <h3>Aanmelden als therapeut</h3>
-      <p>We ontvangen je graag. Een korte aanmelding is genoeg om te beginnen.</p>
-      <form onsubmit="verstuurFormulier(event)">
+      <p>We ontvangen je graag. Niet als aanbieder, maar als mede-drager van deze plek.</p>
+      <form action="https://formspree.io/f/xreyjppd" method="POST" onsubmit="verstuurFormulier(event)">
         <div class="formulier-raster">
           <div class="veld">
             <label for="naam">Naam</label>
-            <input type="text" id="naam" placeholder="Je naam" required>
+            <input type="text" id="naam" name="naam" placeholder="Je naam" required>
           </div>
           <div class="veld">
             <label for="praktijk">Praktijknaam</label>
-            <input type="text" id="praktijk" placeholder="Naam van je praktijk">
+            <input type="text" id="praktijk" name="praktijk" placeholder="Naam van je praktijk">
           </div>
           <div class="veld">
             <label for="regio">Regio</label>
-            <input type="text" id="regio" placeholder="Bijv. Amsterdam, Utrecht, Online">
+            <input type="text" id="regio" name="regio" placeholder="Bijv. Amsterdam, Utrecht, Online">
           </div>
           <div class="veld">
             <label for="focus">Focus binnen adoptie</label>
-            <select id="focus">
+            <select id="focus" name="focus">
               <option value="">Kies een thema</option>
               <option>Identiteit & cultuur</option>
               <option>Hechting & trauma</option>
@@ -1087,14 +1087,14 @@
           </div>
           <div class="veld breed">
             <label for="email">E-mailadres</label>
-            <input type="email" id="email" placeholder="jouw@email.nl" required>
+            <input type="email" id="email" name="email" placeholder="jouw@email.nl" required>
           </div>
           <div class="veld breed">
             <label for="motivatie">Kort iets over je betrokkenheid bij dit werk</label>
-            <textarea id="motivatie" placeholder="Een paar zinnen is genoeg."></textarea>
+            <textarea id="motivatie" name="motivatie" placeholder="Een paar zinnen is genoeg."></textarea>
           </div>
         </div>
-        <button type="button" class="verstuur-knop" onclick="window.open('https://tally.so/r/zxegZa', '_blank')">Aanmelding versturen</button>
+        <button type="submit" class="verstuur-knop">Aanmelding versturen</button>
       </form>
       <p class="formulier-noot">Tussenruimte is een onafhankelijk initiatief in ontwikkeling. We kijken naar betrokkenheid, niet naar certificeringen of methodes. Je hoort van ons.</p>
     </div>
@@ -1105,9 +1105,10 @@
 <section class="nieuwsbrief" id="nieuwsbrief">
   <h2 class="onthul">Op de hoogte blijven?</h2>
   <p class="onthul">Tussenruimte groeit langzaam. Laat je e-mail achter en we laten je weten wanneer de eerste therapeuten zichtbaar worden.</p>
-  <div class="nieuwsbrief-embed onthul">
-    <iframe data-tally-src="https://tally.so/embed/rjEgdv?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="120" frameborder="0" marginheight="0" marginwidth="0" title="Nieuwsbrief"></iframe>
-  </div>
+  <form class="nieuwsbrief-form onthul" action="https://formspree.io/f/xdawbegn" method="POST" onsubmit="verstuurNieuwsbrief(event)">
+    <input type="email" name="email" placeholder="jouw@email.nl" required>
+    <button type="submit">Aanmelden</button>
+  </form>
 </section>
 
 <!-- FOOTER -->
@@ -1145,20 +1146,51 @@
 
   function verstuurFormulier(e) {
     e.preventDefault();
-    const knop = e.target.querySelector('.verstuur-knop');
-    knop.textContent = 'Aanmelding ontvangen \u2713';
-    knop.style.background = 'var(--tekst)';
+    const form = e.target;
+    const knop = form.querySelector('.verstuur-knop');
+    knop.textContent = 'Versturen...';
     knop.disabled = true;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(r => {
+      if (r.ok) {
+        knop.textContent = 'Aanmelding ontvangen \u2713';
+        knop.style.background = 'var(--tekst)';
+        form.reset();
+      } else {
+        knop.textContent = 'Probeer opnieuw';
+        knop.disabled = false;
+      }
+    }).catch(() => {
+      knop.textContent = 'Probeer opnieuw';
+      knop.disabled = false;
+    });
   }
 
-  function aanmeldenNieuwsbrief() {
-    const input = document.getElementById('nieuwsbrief-email');
-    const knop = input.nextElementSibling;
-    if (input.value) {
-      knop.textContent = 'Aangemeld \u2713';
-      input.disabled = true;
-      knop.disabled = true;
-    }
+  function verstuurNieuwsbrief(e) {
+    e.preventDefault();
+    const form = e.target;
+    const knop = form.querySelector('button');
+    knop.textContent = 'Versturen...';
+    knop.disabled = true;
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(r => {
+      if (r.ok) {
+        knop.textContent = 'Aangemeld \u2713';
+        form.reset();
+      } else {
+        knop.textContent = 'Probeer opnieuw';
+        knop.disabled = false;
+      }
+    }).catch(() => {
+      knop.textContent = 'Probeer opnieuw';
+      knop.disabled = false;
+    });
   }
 
   document.querySelectorAll('a[href^="#"]').forEach(a => {
