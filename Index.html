@@ -688,10 +688,13 @@
     line-height: 1.9;
   }
 
-  .nieuwsbrief-form {
-    display: flex;
+  .nieuwsbrief-embed {
     max-width: 400px;
     margin: 0 auto;
+  }
+
+  .nieuwsbrief-embed iframe {
+    border: none;
   }
 
   .nieuwsbrief-form input {
@@ -1102,9 +1105,8 @@
 <section class="nieuwsbrief" id="nieuwsbrief">
   <h2 class="onthul">Op de hoogte blijven?</h2>
   <p class="onthul">Tussenruimte groeit langzaam. Laat je e-mail achter en we laten je weten wanneer de eerste therapeuten zichtbaar worden.</p>
-  <div class="nieuwsbrief-form onthul">
-    <input type="email" id="nieuwsbrief-email" placeholder="jouw@email.nl">
-    <button type="button" onclick="window.open('https://tally.so/r/rjEgdv', '_blank')">Aanmelden</button>
+  <div class="nieuwsbrief-embed onthul">
+    <iframe data-tally-src="https://tally.so/embed/rjEgdv?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="120" frameborder="0" marginheight="0" marginwidth="0" title="Nieuwsbrief"></iframe>
   </div>
 </section>
 
@@ -1170,5 +1172,6 @@
   });
 </script>
 
+<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
 </body>
 </html>
